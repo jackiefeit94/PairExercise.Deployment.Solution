@@ -15,13 +15,14 @@ install:
   - npm ci # faster, goes only from package-lock
 before_script:
   - psql -c 'create database "jackie-feit-app-2-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: jackie-feit-app-2
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: CeMBcIBUNFas6uU9uPqkXUPVuL+HmugcYayhyFMbfvAMnfWNSPcTa7xhvrLkx+XsqwPUaoTXatArdsMKsjvT2vQZLAg4+xLqEbD8F3dH004dW09rHGQWWDBvclRMkTdiJpKxzqTa5+Eh+7EtEt9WArXvcACjUKbV/X8L4TzeZavo4FJvO1Vygf6LsfFJflsfEIPQG2aJCrPx0xpe85QDNjPS4MrtG6aoWntFa82rLPLDMqmUA5WWGVfuty/yD8QllTL8h3NkGOOMJWsBLVkB2Zg1QUiXWYclEs15zdk1EpNY04fL5CICWPgaC9qQFGrQJPg/jXdLF2A+Z9zdcOjU18eIygz4Tqr5cL6+dMRzoyhgQG3gXvWIiXHwk4sxp45dd9CJQQSHYFfO6F4DRNVhU1geezybbgCEE3eAPGOemzIxgV1J6MmjFC+7NlUWfsz+XKOzZKqBc6wUc6rpOCGjH8J4bfR7VpKhilniTlCdpICNRZNqyVQV0EcSTt9C9f0p1xj7w+haTWJ5tegpbPOv+r8H4Ue7GKrbbJESFod34lMvwtL+oV1lAcDXCBIibkKvOSnA51zymxXRwtLE022pKvfuGII7S6ELzDK4YzNxshfmM6W/RfiOLnpPxK3vZSiKcPg0IOoHyINFdVu7AXoZyHx0Qh+TUv9BCx9q8jmVYxU=
